@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,90 +12,115 @@
             padding: 20px;
             color: #333;
         }
-
         .header {
             text-align: center;
             margin-bottom: 30px;
             padding: 20px;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-
         .stats-container {
             margin-bottom: 30px;
         }
-
         .viz-container {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             margin-bottom: 30px;
         }
-
         .viz-card {
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             flex: 1;
             min-width: 450px;
         }
-
         .viz-card h3 {
             margin-top: 0;
             color: #1a73e8;
             border-bottom: 2px solid #f0f2f5;
             padding-bottom: 10px;
         }
-
         iframe {
             width: 100%;
-            height: 500px;
+            height: 800px;
             border: none;
             border-radius: 8px;
         }
-
         .full-width {
             flex: 100%;
         }
+        /* Special styling for Venn diagram */
+        .venn-iframe {
+            width: 100% !important;
+            height: 900px !important;
+        }
+        /* Adjusted height for UpSet plots (30% reduction) */
+        .upset-iframe {
+            height: 650px !important;
+        }
     </style>
 </head>
-
 <body>
     <div class="header">
         <h1>3D Data Crosswalk Analysis Dashboard</h1>
         <p>Comprehensive visualization of population overlaps and match subcategories.</p>
     </div>
 
-    <!-- <div id="stats-panel" class="stats-container">
-        Stats will be loaded here
-    </div> -->
-
-    <div class="viz-container">
-        <div class="viz-card full-width">
-            <h3>Classic Subcategory UpSet Plot</h3>
-            <p>Standard UpSet layout: Set sizes (left), Intersection sizes (top), and Intersection matrix (bottom).</p>
-            <iframe src="classic_upset_plot.html" style="height: 900px;"></iframe>
-        </div>
+    <div id="stats-panel" class="stats-container">
+        <!-- Stats will be loaded here -->
     </div>
 
     <div class="viz-container">
         <div class="viz-card full-width">
-            <h3>3D Bar Matrix</h3>
-            <p>Spatial representation of match counts across pairs and subcategories with numerical labels.</p>
+            <h3>Enhanced Subcategory Match Flow</h3>
+            <p>Interactive Sankey diagram showing the flow of matches with numerical values.</p>
             <iframe src="3d_bar_matrix.html" style="height: 600px;"></iframe>
         </div>
     </div>
 
-    <!-- <script>
+    <div class="viz-container">
+        <div class="viz-card full-width">
+            <h3>Venn Diagram</h3>
+            <p>Patient Crosswalk Summary - Population overlaps across Emergency, Caregiver, and DecisionMaker contacts</p>
+            <iframe src="venn_diagram.html" class="venn-iframe"></iframe>
+        </div>
+    </div>
+
+    <div class="viz-container">
+        <div class="viz-card full-width">
+            <h3>UpSet Plot - Both Match Categories (Top 10)</h3>
+            <p>Standard UpSet layout: Set sizes (left), Intersection sizes (top), and Intersection matrix (bottom).</p>
+            <iframe src="upset_plot_both.html" class="upset-iframe"></iframe>
+        </div>
+    </div>
+
+    <div class="viz-container">
+        <div class="viz-card full-width">
+            <h3>UpSet Plot - Phone Match Categories (Top 10)</h3>
+            <p>Standard UpSet layout: Set sizes (left), Intersection sizes (top), and Intersection matrix (bottom).</p>
+            <iframe src="upset_plot_phone.html" class="upset-iframe"></iframe>
+        </div>
+    </div>
+    
+    <div class="viz-container">
+        <div class="viz-card full-width">
+            <h3>UpSet Plot - Name Match Categories (Top 10)</h3>
+            <p>Standard UpSet layout: Set sizes (left), Intersection sizes (top), and Intersection matrix (bottom).</p>
+            <iframe src="upset_plot_name.html" class="upset-iframe"></iframe>
+        </div>
+    </div>
+
+    <script>
         // Load stats panel
         fetch('stats_panel.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('stats-panel').innerHTML = data;
-            });
-    </script> -->
+            })
+            .catch(error => console.log('Stats panel not available'));
+    </script>
 </body>
-
 </html>
