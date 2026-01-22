@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Data Crosswalk Analysis Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: #fafafa;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-bottom: 4px solid #2b6cb0;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.95em;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .stats-container {
+            padding: 40px;
+            background: #f7fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .viz-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 40px;
+            background: white;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .viz-container:nth-child(odd) {
+            background: #f7fafc;
+        }
+
+        .viz-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            flex: 1;
+            min-width: 450px;
+        }
+
+        .viz-card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-size: 1.5em;
+            font-weight: 400;
+            border-bottom: 3px solid #2b6cb0;
+            padding-bottom: 10px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .full-width {
+            flex: 100%;
+        }
+
+        /* Special styling for Venn diagram */
+        .venn-iframe {
+            width: 100% !important;
+            height: 900px !important;
+        }
+
+        /* Adjusted height for UpSet plots (30% reduction) */
+        .upset-iframe {
+            height: 650px !important;
+        }
+
+        .footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Detailed Charts & Analysis</h1>
+            <p>Comprehensive visualization of population overlaps and match subcategories</p>
+            <a href="index.html" class="nav-link">← Back to Executive Dashboard</a>
+        </div>
+
+        <div id="stats-panel" class="stats-container">
+            <!-- Stats will be loaded here -->
+        </div>
+
+        <!-- <div class="viz-container">
+            <div class="viz-card full-width">
+                <h3>Enhanced Subcategory Match Flow</h3>
+                <p>Interactive Sankey diagram showing the flow of matches with numerical values.</p>
+                <iframe src="3d_bar_matrix.html" style="height: 600px;"></iframe>
+            </div>
+        </div> -->
+
+        <div class="viz-container">
+            <div class="viz-card full-width">
+                <h3>Venn Diagram</h3>
+                <iframe src="venn_diagram.html" class="venn-iframe"></iframe>
+            </div>
+        </div>
+
+        <div class="viz-container">
+            <div class="viz-card full-width">
+                <h3>UpSet Plot - Name Match Categories</h3>
+                <iframe src="upset_plot_name.html" class="upset-iframe"></iframe>
+            </div>
+        </div>
+
+        <div class="viz-container">
+            <div class="viz-card full-width">
+                <h3>UpSet Plot - Phone Match Categories</h3>
+                <iframe src="upset_plot_phone.html" class="upset-iframe"></iframe>
+            </div>
+        </div>
+
+        <div class="viz-container">
+            <div class="viz-card full-width">
+                <h3>UpSet Plot - Both Match Categories</h3>
+                <iframe src="upset_plot_both.html" class="upset-iframe"></iframe>
+            </div>
+        </div>
+
+
+        <div class="footer">
+            <p>Emergency Contact Data Quality Dashboard | Detailed Analysis</p>
+            <p style="margin-top: 10px; opacity: 0.9;">Interactive Charts: Venn Diagrams | UpSet Plots | Match Categories</p>
+        </div>
+    </div>
+
+    <script>
+        // Load stats panel
+        fetch('stats_panel.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('stats-panel').innerHTML = data;
+            })
+            .catch(error => console.log('Stats panel not available'));
+    </script>
+</body>
+</html>

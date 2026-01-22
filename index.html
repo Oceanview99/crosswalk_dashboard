@@ -1,124 +1,574 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Data Crosswalk Analysis Dashboard</title>
+    <title>Emergency Contact Data Quality Dashboard - Three Level Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
             padding: 20px;
             color: #333;
         }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: #fafafa;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
         .header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 40px;
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
+            border-bottom: 4px solid #2b6cb0;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .level-section {
+            padding: 40px;
+            border-bottom: 2px solid #e2e8f0;
             background: white;
+        }
+
+        .level-section:nth-child(odd) {
+            background: #f7fafc;
+        }
+
+        .level-header {
+            background: linear-gradient(90deg, #2d3748, #4a5568);
+            color: white;
+            padding: 20px 30px;
             border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .stats-container {
+
+        .level-number {
+            background: white;
+            color: #2d3748;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .level-title {
+            flex: 1;
+        }
+
+        .level-title h2 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+
+        .level-title p {
+            opacity: 0.95;
+            font-size: 1.05em;
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
             margin-bottom: 30px;
         }
-        .viz-container {
-            display: flex;
-            flex-wrap: wrap;
+
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .chart-container.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-        .viz-card {
+
+        .metric-card {
             background: white;
+            padding: 25px;
             border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 5px solid;
+            transition: transform 0.2s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+        }
+
+        .metric-card.blue { border-left-color: #3182ce; }
+        .metric-card.green { border-left-color: #38a169; }
+        .metric-card.red { border-left-color: #e53e3e; }
+        .metric-card.orange { border-left-color: #dd6b20; }
+        .metric-card.purple { border-left-color: #805ad5; }
+
+        .metric-label {
+            font-size: 0.85em;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 2.2em;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .metric-percent {
+            font-size: 1.1em;
+            color: #718096;
+        }
+
+        .footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            flex: 1;
-            min-width: 450px;
+            font-size: 0.9em;
         }
-        .viz-card h3 {
-            margin-top: 0;
-            color: #1a73e8;
-            border-bottom: 2px solid #f0f2f5;
-            padding-bottom: 10px;
-        }
-        iframe {
-            width: 100%;
-            height: 800px;
-            border: none;
+
+        .nav-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
             border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.95em;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
         }
-        .full-width {
-            flex: 100%;
-        }
-        /* Special styling for Venn diagram */
-        .venn-iframe {
-            width: 100% !important;
-            height: 900px !important;
-        }
-        /* Adjusted height for UpSet plots (30% reduction) */
-        .upset-iframe {
-            height: 650px !important;
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>3D Data Crosswalk Analysis Dashboard</h1>
-        <p>Comprehensive visualization of population overlaps and match subcategories.</p>
-    </div>
-
-
-
-    <!-- <div class="viz-container">
-        <div class="viz-card full-width">
-            <h3>Enhanced Subcategory Match Flow</h3>
-            <p>Interactive Sankey diagram showing the flow of matches with numerical values.</p>
-            <iframe src="3d_bar_matrix.html" style="height: 600px;"></iframe>
+    <div class="container">
+        <div class="header">
+            <h1>Emergency Contact Data Quality Dashboard</h1>
+            <p>Three-Level Data Analysis: Entry → Matching → Quality</p>
+            <p style="margin-top: 10px; font-size: 0.95em; opacity: 0.9;">Total Patient Population: 87,753</p>
+            <a href="detailed_charts.html" class="nav-link">📊 View Detailed Charts & Analysis</a>
         </div>
-    </div> -->
 
-    <div class="viz-container">
-        <div class="viz-card full-width">
-            <h3>Venn Diagram</h3>
-            <!-- <p>Patient Crosswalk Summary - Population overlaps across Emergency, Caregiver, and DecisionMaker contacts</p> -->
-            <iframe src="venn_diagram.html" class="venn-iframe"></iframe>
-        </div>
-    </div>
+        <!-- LEVEL 1: DATA ENTRY STATUS -->
+        <div class="level-section">
+            <div class="level-header">
+                <div class="level-number">1</div>
+                <div class="level-title">
+                    <h2>Data Entry Status</h2>
+                    <p>Has data been entered for the patient?</p>
+                </div>
+            </div>
 
-    <div class="viz-container">
-        <div class="viz-card full-width">
-            <h3>UpSet Plot - Both Match Categories</h3>
-            <!-- <p>Standard UpSet layout: Set sizes (left), Intersection sizes (top), and Intersection matrix (bottom).</p> -->
-            <iframe src="upset_plot_both.html" class="upset-iframe"></iframe>
-        </div>
-    </div>
+            <div class="metrics-grid">
+                <div class="metric-card green">
+                    <div class="metric-label">Data Entered</div>
+                    <div class="metric-value">66,308</div>
+                    <div class="metric-percent">75.6% of total</div>
+                </div>
+                <div class="metric-card red">
+                    <div class="metric-label">No Data Entered</div>
+                    <div class="metric-value">21,445</div>
+                    <div class="metric-percent">24.4% of total</div>
+                </div>
+            </div>
 
-    <div class="viz-container">
-        <div class="viz-card full-width">
-            <h3>UpSet Plot - Phone Match Categories</h3>
-            <!-- <p>Standard UpSet layout: Set sizes (left), Intersection sizes (top), and Intersection matrix (bottom).</p> -->
-            <iframe src="upset_plot_phone.html" class="upset-iframe"></iframe>
+            <div class="chart-row">
+                <div class="chart-container">
+                    <div id="level1-pie"></div>
+                </div>
+                <div class="chart-container">
+                    <div id="level1-bar"></div>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <div class="viz-container">
-        <div class="viz-card full-width">
-            <h3>UpSet Plot - Name Match Categories</h3>
-            <!-- <p>Standard UpSet layout: Set sizes (left), Intersection sizes (top), and Intersection matrix (bottom).</p> -->
-            <iframe src="upset_plot_name.html" class="upset-iframe"></iframe>
+
+        <!-- LEVEL 2: MATCH STATUS (Among Data Entered) -->
+        <div class="level-section">
+            <div class="level-header">
+                <div class="level-number">2</div>
+                <div class="level-title">
+                    <h2>Match Status (Among Data Entered)</h2>
+                    <p>Of the 66,308 patients with data entered, how many found matches in crosswalk?</p>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card green">
+                    <div class="metric-label">Matched in Crosswalk</div>
+                    <div class="metric-value">58,116</div>
+                    <div class="metric-percent">87.6% of entered</div>
+                </div>
+                <div class="metric-card orange">
+                    <div class="metric-label">Entered but NOT Matched</div>
+                    <div class="metric-value">35,715</div>
+                    <div class="metric-percent">53.9% of entered</div>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-container">
+                    <div id="level2-pie"></div>
+                </div>
+                <div class="chart-container">
+                    <div id="level2-funnel"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 3: MATCH TYPE DISTRIBUTION (Among Matched) -->
+        <div class="level-section">
+            <div class="level-header">
+                <div class="level-number">3</div>
+                <div class="level-title">
+                    <h2>Match Quality Distribution (Among Matched Records)</h2>
+                    <p>Of the 58,116 matched patients, what type of matches were found?</p>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card green">
+                    <div class="metric-label">Both (Name + Phone)</div>
+                    <div class="metric-value">49,853</div>
+                    <div class="metric-percent">85.8% of matched</div>
+                </div>
+                <div class="metric-card blue">
+                    <div class="metric-label">Name Only</div>
+                    <div class="metric-value">2,964</div>
+                    <div class="metric-percent">5.1% of matched</div>
+                </div>
+                <div class="metric-card orange">
+                    <div class="metric-label">Phone Only</div>
+                    <div class="metric-value">5,885</div>
+                    <div class="metric-percent">10.1% of matched</div>
+                </div>
+
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-container">
+                    <div id="level3-pie"></div>
+                </div>
+                <div class="chart-container">
+                    <div id="level3-stacked"></div>
+                </div>
+            </div>
+
+            <div class="chart-container full-width">
+                <div id="level3-source-breakdown"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Emergency Contact Data Quality Dashboard | Three-Level Analysis</p>
+            <p style="margin-top: 10px; opacity: 0.9;">Level 1: Entry Status | Level 2: Match Status | Level 3: Match Quality</p>
         </div>
     </div>
 
     <script>
-        // Load stats panel
-        fetch('stats_panel.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('stats-panel').innerHTML = data;
-            })
-            .catch(error => console.log('Stats panel not available'));
+        // Academic color palette
+        const academicColors = {
+            navy: '#1a365d',
+            slate: '#2d3748',
+            teal: '#319795',
+            sage: '#48bb78',
+            amber: '#d69e2e',
+            rust: '#c05621',
+            plum: '#805ad5',
+            steel: '#4a5568'
+        };
+
+        // ===== LEVEL 1 CHARTS =====
+        // Level 1: Pie Chart
+        var level1PieData = [{
+            values: [66308, 21445],
+            labels: ['Data Entered', 'No Data Entered'],
+            type: 'pie',
+            hole: 0.4,
+            marker: {
+                colors: ['#48bb78', '#c05621']
+            },
+            textinfo: 'label+percent',
+            textposition: 'outside',
+            textfont: { size: 13, family: 'Segoe UI, sans-serif' },
+            hovertemplate: '<b>%{label}</b><br>Patients: %{value:,}<br>Percentage: %{percent}<extra></extra>'
+        }];
+
+        var level1PieLayout = {
+            title: { 
+                text: 'Level 1: Data Entry Status',
+                font: { size: 16, color: '#2d3748', family: 'Segoe UI, sans-serif' }
+            },
+            height: 400,
+            showlegend: true,
+            paper_bgcolor: 'white',
+            plot_bgcolor: 'white',
+            annotations: [{
+                text: '87,753<br>Total',
+                showarrow: false,
+                font: { size: 16, color: '#2d3748' }
+            }]
+        };
+
+        Plotly.newPlot('level1-pie', level1PieData, level1PieLayout, {responsive: true});
+
+        // Level 1: Bar Chart
+        var level1BarData = [{
+            x: ['Data Entered', 'No Data Entered'],
+            y: [66308, 21445],
+            type: 'bar',
+            width: 0.4,
+            marker: {
+                color: ['#48bb78', '#c05621'],
+                line: { color: '#2d3748', width: 1 }
+            },
+            text: ['66,308<br>(75.6%)',
+                   '21,445<br>(24.4%)'],
+            textposition: 'auto',
+            textfont: { color: 'white', size: 12 },
+            hovertemplate: '<b>%{x}</b><br>Patients: %{y:,}<extra></extra>'
+        }];
+
+        var level1BarLayout = {
+            title: { 
+                text: 'Patient Counts by Entry Status',
+                font: { size: 16, color: '#2d3748' }
+            },
+            yaxis: { title: 'Number of Patients', gridcolor: '#e2e8f0' },
+            height: 400,
+            paper_bgcolor: 'white',
+            plot_bgcolor: '#fafafa'
+        };
+
+        Plotly.newPlot('level1-bar', level1BarData, level1BarLayout, {responsive: true});
+
+        // ===== LEVEL 2 CHARTS =====
+        // Level 2: Pie Chart
+        var level2PieData = [{
+            values: [58116, 35715],
+            labels: ['Matched in Crosswalk', 'Entered but NOT Matched'],
+            type: 'pie',
+            hole: 0.4,
+            marker: {
+                colors: ['#319795', '#d69e2e']
+            },
+            textinfo: 'label+percent',
+            textposition: 'outside',
+            textfont: { size: 13 },
+            hovertemplate: '<b>%{label}</b><br>Patients: %{value:,}<br>Percentage: %{percent}<extra></extra>'
+        }];
+
+        var level2PieLayout = {
+            title: { 
+                text: 'Level 2: Match Status (Among Entered)',
+                font: { size: 16, color: '#2d3748' }
+            },
+            height: 400,
+            showlegend: true,
+            paper_bgcolor: 'white',
+            plot_bgcolor: 'white',
+            annotations: [{
+                text: '66,308<br>Entered',
+                showarrow: false,
+                font: { size: 16, color: '#2d3748' }
+            }]
+        };
+
+        Plotly.newPlot('level2-pie', level2PieData, level2PieLayout, {responsive: true});
+
+        // Level 2: Funnel Chart
+        var level2FunnelData = [{
+            type: 'funnel',
+            y: ['Total Patients', 'Data Entered', 'Matched in Crosswalk'],
+            x: [87753, 66308, 58116],
+            textposition: 'inside',
+            texttemplate: '%{x:,}<br>%{percentPrevious}',
+            textfont: { color: 'white', size: 13 },
+            marker: {
+                color: ['#2b6cb0', '#319795', '#48bb78'],
+                line: { color: '#2d3748', width: 1 }
+            },
+            hovertemplate: '<b>%{y}</b><br>Patients: %{x:,}<br>%{percentPrevious}<extra></extra>'
+        }];
+
+        var level2FunnelLayout = {
+            title: { 
+                text: 'Patient Flow: Entry to Match',
+                font: { size: 16, color: '#2d3748' }
+            },
+            height: 400,
+            paper_bgcolor: 'white',
+            plot_bgcolor: 'white'
+        };
+
+        Plotly.newPlot('level2-funnel', level2FunnelData, level2FunnelLayout, {responsive: true});
+
+        // ===== LEVEL 3 CHARTS =====
+        // Level 3: Pie Chart
+        var level3PieData = [{
+            values: [49853, 2964, 5885],
+            labels: ['Both (Name + Phone)', 'Name Only', 'Phone Only'],
+            type: 'pie',
+            hole: 0.4,
+            marker: {
+                colors: ['#38a169', '#3182ce', '#dd6b20']
+            },
+            textinfo: 'label+percent',
+            textposition: 'outside',
+            textfont: { size: 13 },
+            hovertemplate: '<b>%{label}</b><br>Patients: %{value:,}<br>Percentage: %{percent}<extra></extra>'
+        }];
+
+        var level3PieLayout = {
+            title: { 
+                text: 'Level 3: Match Type Distribution (Among Matched)',
+                font: { size: 16, color: '#2d3748' }
+            },
+            height: 400,
+            showlegend: true,
+            paper_bgcolor: 'white',
+            plot_bgcolor: 'white',
+            annotations: [{
+                text: '58,116<br>Matched',
+                showarrow: false,
+                font: { size: 16, color: '#2d3748' }
+            }]
+        };
+
+        Plotly.newPlot('level3-pie', level3PieData, level3PieLayout, {responsive: true});
+
+        // Level 3: Stacked Bar - WITH PERCENTAGES
+        var level3StackedData = [
+            {
+                x: ['Match Quality'],
+                y: [49853],
+                name: 'Both (Name + Phone)',
+                type: 'bar',
+                width: 0.4,
+                marker: { 
+                    color: '#38a169',
+                    line: { color: '#2d3748', width: 1 }
+                },
+                text: ['49,853'],
+                textposition: 'inside',
+                textfont: { color: 'white', size: 12 },
+                hovertemplate: '<b>Both</b><br>Patients: %{y:,}<br>85.8%<extra></extra>'
+            },
+            {
+                x: ['Match Quality'],
+                y: [2964],
+                name: 'Name Only',
+                type: 'bar',
+                width: 0.4,
+                marker: { 
+                    color: '#3182ce',
+                    line: { color: '#2d3748', width: 1 }
+                },
+                text: ['2,964)'],
+                textposition: 'inside',
+                textfont: { color: 'white', size: 12 },
+                hovertemplate: '<b>Name Only</b><br>Patients: %{y:,}<br>5.1%<extra></extra>'
+            },
+            {
+                x: ['Match Quality'],
+                y: [5885],
+                name: 'Phone Only',
+                type: 'bar',
+                width: 0.4,
+                marker: { 
+                    color: '#dd6b20',
+                    line: { color: '#2d3748', width: 1 }
+                },
+                text: ['5,885'],
+                textposition: 'inside',
+                textfont: { color: 'white', size: 12 },
+                hovertemplate: '<b>Phone Only</b><br>Patients: %{y:,}<br>10.1%<extra></extra>'
+            }
+        ];
+
+        var level3StackedLayout = {
+            title: { 
+                text: 'Match Quality Breakdown',
+                font: { size: 16, color: '#2d3748' }
+            },
+            barmode: 'stack',
+            yaxis: { title: 'Number of Patients', gridcolor: '#e2e8f0' },
+            height: 400,
+            showlegend: true,
+            paper_bgcolor: 'white',
+            plot_bgcolor: '#fafafa'
+        };
+
+        Plotly.newPlot('level3-stacked', level3StackedData, level3StackedLayout, {responsive: true});
+
+
+        var level3SourceLayout = {
+            title: { 
+                text: 'Match Coverage by Data Source',
+                font: { size: 16, color: '#2d3748' }
+            },
+            yaxis: { title: 'Number of Matched Patients', gridcolor: '#e2e8f0' },
+            xaxis: { title: 'Data Source' },
+            height: 400,
+            showlegend: false,
+            paper_bgcolor: 'white',
+            plot_bgcolor: '#fafafa'
+        };
+
+        Plotly.newPlot('level3-source-breakdown', level3SourceData, level3SourceLayout, {responsive: true});
     </script>
 </body>
 </html>
