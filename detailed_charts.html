@@ -189,30 +189,6 @@
         </div>
     </div>
 
-    <script>
-        // Load stats panel
-        fetch('stats_panel.html')
-            .then(response => {
-                if (!response.ok) throw new Error('Stats panel not available');
-                return response.text();
-            })
-            .then(data => {
-                // Remove any CSP meta tags from the loaded content
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = data;
 
-                // Remove meta tags to prevent CSP warnings
-                const metaTags = tempDiv.querySelectorAll('meta');
-                metaTags.forEach(meta => meta.remove());
-
-                // Insert the cleaned content
-                document.getElementById('stats-panel').innerHTML = tempDiv.innerHTML;
-            })
-            .catch(error => {
-                console.log('Stats panel not available:', error.message);
-                // Hide the empty stats container
-                document.getElementById('stats-panel').style.display = 'none';
-            });
-    </script>
 </body>
 </html>
