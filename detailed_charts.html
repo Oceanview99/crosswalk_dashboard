@@ -151,18 +151,9 @@
             <a href="index.html" class="nav-link">← Back to Executive Dashboard</a>
         </div>
 
-        <div id="stats-panel" class="stats-container">
-            <!-- Stats will be loaded here -->
-        </div>
+        
 
-        <!-- <div class="viz-container">
-            <div class="viz-card full-width">
-                <h3>Enhanced Subcategory Match Flow</h3>
-                <p>Interactive Sankey diagram showing the flow of matches with numerical values.</p>
-                <iframe src="3d_bar_matrix.html" style="height: 600px;"></iframe>
-            </div>
-        </div> -->
-
+    
         <div class="viz-container">
             <div class="viz-card full-width">
                 <h3>Venn Diagram</h3>
@@ -201,11 +192,27 @@
     <script>
         // Load stats panel
         fetch('stats_panel.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('stats-panel').innerHTML = data;
+            .then(response => {
+                if (!response.ok) throw new Error('Stats panel not available');
+                return response.text();
             })
-            .catch(error => console.log('Stats panel not available'));
+            .then(data => {
+                // Remove any CSP meta tags from the loaded content
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                // Remove meta tags to prevent CSP warnings
+                const metaTags = tempDiv.querySelectorAll('meta');
+                metaTags.forEach(meta => meta.remove());
+
+                // Insert the cleaned content
+                document.getElementById('stats-panel').innerHTML = tempDiv.innerHTML;
+            })
+            .catch(error => {
+                console.log('Stats panel not available:', error.message);
+                // Hide the empty stats container
+                document.getElementById('stats-panel').style.display = 'none';
+            });
     </script>
 </body>
 </html>
