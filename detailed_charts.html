@@ -141,6 +141,154 @@
             padding: 20px;
             font-size: 0.9em;
         }
+
+        /* ===== MOBILE RESPONSIVE STYLES ===== */
+
+        /* Tablet: 768px and below */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 12px;
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 0.95em;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 14px 20px;
+                margin-top: 12px;
+            }
+
+            .viz-container {
+                padding: 25px 20px;
+            }
+
+            .viz-card {
+                padding: 20px;
+            }
+
+            .viz-card h3 {
+                font-size: 1.3em;
+            }
+
+            /* Reduce iframe heights for tablet */
+            iframe {
+                height: 600px;
+            }
+
+            .venn-iframe {
+                height: 700px !important;
+            }
+
+            .upset-iframe {
+                height: 500px !important;
+            }
+        }
+
+        /* Mobile: 576px and below */
+        @media screen and (max-width: 576px) {
+            body {
+                padding: 5px;
+            }
+
+            .container {
+                border-radius: 8px;
+            }
+
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.4em;
+                margin-bottom: 8px;
+            }
+
+            .header p {
+                font-size: 0.85em;
+            }
+
+            .nav-link {
+                font-size: 0.85em;
+                padding: 12px 16px;
+            }
+
+            .viz-container {
+                padding: 20px 15px;
+            }
+
+            .viz-card {
+                padding: 15px;
+            }
+
+            .viz-card h3 {
+                font-size: 1.1em;
+                padding-bottom: 8px;
+            }
+
+            /* Further reduce iframe heights for mobile */
+            iframe {
+                height: 500px;
+            }
+
+            .venn-iframe {
+                height: 550px !important;
+            }
+
+            .upset-iframe {
+                height: 400px !important;
+            }
+
+            .footer {
+                padding: 15px;
+                font-size: 0.75em;
+            }
+
+            .footer p {
+                font-size: 0.8em;
+            }
+        }
+
+        /* Small mobile: 400px and below */
+        @media screen and (max-width: 400px) {
+            .header h1 {
+                font-size: 1.2em;
+            }
+
+            .header p {
+                font-size: 0.75em;
+            }
+
+            .viz-card h3 {
+                font-size: 1em;
+            }
+
+            iframe {
+                height: 400px;
+            }
+
+            .venn-iframe {
+                height: 450px !important;
+            }
+
+            .upset-iframe {
+                height: 350px !important;
+            }
+        }
     </style>
 </head>
 <body>

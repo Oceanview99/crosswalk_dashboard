@@ -192,6 +192,166 @@
             border-color: rgba(255, 255, 255, 0.5);
             transform: translateY(-2px);
         }
+
+        /* ===== MOBILE RESPONSIVE STYLES ===== */
+
+        /* Tablet: 768px and below */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 12px;
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 0.95em;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 14px 20px;
+                margin-top: 12px;
+            }
+
+            .level-section {
+                padding: 25px 20px;
+            }
+
+            .level-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .level-number {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5em;
+            }
+
+            .level-title h2 {
+                font-size: 1.4em;
+                margin-top: 10px;
+            }
+
+            .level-title p {
+                font-size: 0.95em;
+            }
+
+            /* Stack chart rows vertically on tablet */
+            .chart-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .chart-container {
+                padding: 20px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .metric-card {
+                padding: 20px;
+            }
+
+            .metric-value {
+                font-size: 1.8em;
+            }
+        }
+
+        /* Mobile: 576px and below */
+        @media screen and (max-width: 576px) {
+            body {
+                padding: 5px;
+            }
+
+            .container {
+                border-radius: 8px;
+            }
+
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+                margin-bottom: 8px;
+            }
+
+            .header p {
+                font-size: 0.85em;
+            }
+
+            .nav-link {
+                font-size: 0.9em;
+                padding: 12px 16px;
+            }
+
+            .level-section {
+                padding: 20px 15px;
+            }
+
+            .level-header {
+                padding: 15px;
+            }
+
+            .level-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3em;
+            }
+
+            .level-title h2 {
+                font-size: 1.2em;
+            }
+
+            .level-title p {
+                font-size: 0.85em;
+            }
+
+            .chart-container {
+                padding: 15px;
+            }
+
+            .metric-card {
+                padding: 15px;
+            }
+
+            .metric-label {
+                font-size: 0.75em;
+            }
+
+            .metric-value {
+                font-size: 1.6em;
+            }
+
+            .metric-percent {
+                font-size: 0.95em;
+            }
+
+            .footer {
+                padding: 15px;
+                font-size: 0.8em;
+            }
+
+            .footer p {
+                font-size: 0.85em;
+            }
+        }
     </style>
 </head>
 <body>
