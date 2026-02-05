@@ -144,6 +144,8 @@
         .metric-card.red { border-left-color: #e53e3e; }
         .metric-card.orange { border-left-color: #dd6b20; }
         .metric-card.purple { border-left-color: #805ad5; }
+        .metric-card.teal { border-left-color: #319795; }
+        .metric-card.pink { border-left-color: #d53f8c; }
 
         .metric-label {
             font-size: 0.85em;
@@ -363,13 +365,13 @@
             <a href="detailed_charts.html" class="nav-link">📊 View Detailed Charts & Analysis</a>
         </div>
 
-        <!-- LEVEL 1: DATA ENTRY STATUS -->
+        <!-- LEVEL 1: DATA ENTRY STATUS WITH SOURCE BREAKDOWN -->
         <div class="level-section">
             <div class="level-header">
                 <div class="level-number">1</div>
                 <div class="level-title">
                     <h2>Data Entry Status</h2>
-                    <p>Has data been entered for the patient?</p>
+                    <p>Has data been entered for the patient? Which sources?</p>
                 </div>
             </div>
 
@@ -391,7 +393,7 @@
                     <div id="level1-pie"></div>
                 </div>
                 <div class="chart-container">
-                    <div id="level1-bar"></div>
+                    <div id="level1-source-breakdown"></div>
                 </div>
             </div>
         </div>
@@ -525,35 +527,38 @@
 
         Plotly.newPlot('level1-pie', level1PieData, level1PieLayout, {responsive: true});
 
-        // Level 1: Bar Chart
-        var level1BarData = [{
-            x: ['Data Entered', 'No Data Entered'],
-            y: [66308, 21445],
-            type: 'bar',
-            width: 0.4,
+        // Level 1: Source Breakdown Pie Chart
+        var level1SourceData = [{
+            values: [3638, 1743, 20173, 13783, 23153, 29024, 12603],
+            labels: ['DM Only', 'CG Only', 'EC Only', 'DM+CG', 'DM+EC', 'EC+CG', 'All Three'],
+            type: 'pie',
+            hole: 0.4,
             marker: {
-                color: ['#48bb78', '#c05621'],
-                line: { color: '#2d3748', width: 1 }
+                colors: ['#3182ce', '#dd6b20', '#805ad5', '#319795', '#d53f8c', '#48bb78', '#2b6cb0']
             },
-            text: ['66,308<br>(75.6%)',
-                   '21,445<br>(24.4%)'],
-            textposition: 'auto',
-            textfont: { color: 'white', size: 12 },
-            hovertemplate: '<b>%{x}</b><br>Patients: %{y:,}<extra></extra>'
+            textinfo: 'label+percent',
+            textposition: 'outside',
+            textfont: { size: 11, family: 'Segoe UI, sans-serif' },
+            hovertemplate: '<b>%{label}</b><br>Patients: %{value:,}<br>Percentage: %{percent}<extra></extra>'
         }];
 
-        var level1BarLayout = {
-            title: { 
-                text: 'Patient Counts by Entry Status',
-                font: { size: 16, color: '#2d3748' }
+        var level1SourceLayout = {
+            title: {
+                text: 'Data Source Combinations',
+                font: { size: 16, color: '#2d3748', family: 'Segoe UI, sans-serif' }
             },
-            yaxis: { title: 'Number of Patients', gridcolor: '#e2e8f0' },
             height: 400,
+            showlegend: true,
             paper_bgcolor: 'white',
-            plot_bgcolor: '#fafafa'
+            plot_bgcolor: 'white',
+            annotations: [{
+                text: '66,308<br>Entered',
+                showarrow: false,
+                font: { size: 16, color: '#2d3748' }
+            }]
         };
 
-        Plotly.newPlot('level1-bar', level1BarData, level1BarLayout, {responsive: true});
+        Plotly.newPlot('level1-source-breakdown', level1SourceData, level1SourceLayout, {responsive: true});
 
         // ===== LEVEL 2 CHARTS =====
         // Level 2: Pie Chart
