@@ -144,8 +144,6 @@
         .metric-card.red { border-left-color: #e53e3e; }
         .metric-card.orange { border-left-color: #dd6b20; }
         .metric-card.purple { border-left-color: #805ad5; }
-        .metric-card.teal { border-left-color: #319795; }
-        .metric-card.pink { border-left-color: #d53f8c; }
 
         .metric-label {
             font-size: 0.85em;
@@ -175,185 +173,6 @@
             padding: 20px;
             font-size: 0.9em;
         }
-
-        .nav-link {
-            display: inline-block;
-            padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 0.95em;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* ===== MOBILE RESPONSIVE STYLES ===== */
-
-        /* Tablet: 768px and below */
-        @media screen and (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                border-radius: 12px;
-            }
-
-            .header {
-                padding: 25px 20px;
-            }
-
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .header p {
-                font-size: 0.95em;
-            }
-
-            .nav-link {
-                display: block;
-                width: 100%;
-                padding: 14px 20px;
-                margin-top: 12px;
-            }
-
-            .level-section {
-                padding: 25px 20px;
-            }
-
-            .level-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 20px;
-            }
-
-            .level-number {
-                width: 45px;
-                height: 45px;
-                font-size: 1.5em;
-            }
-
-            .level-title h2 {
-                font-size: 1.4em;
-                margin-top: 10px;
-            }
-
-            .level-title p {
-                font-size: 0.95em;
-            }
-
-            /* Stack chart rows vertically on tablet */
-            .chart-row {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .chart-container {
-                padding: 20px;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .metric-card {
-                padding: 20px;
-            }
-
-            .metric-value {
-                font-size: 1.8em;
-            }
-        }
-
-        /* Mobile: 576px and below */
-        @media screen and (max-width: 576px) {
-            body {
-                padding: 5px;
-            }
-
-            .container {
-                border-radius: 8px;
-            }
-
-            .header {
-                padding: 20px 15px;
-            }
-
-            .header h1 {
-                font-size: 1.5em;
-                margin-bottom: 8px;
-            }
-
-            .header p {
-                font-size: 0.85em;
-            }
-
-            .nav-link {
-                font-size: 0.9em;
-                padding: 12px 16px;
-            }
-
-            .level-section {
-                padding: 20px 15px;
-            }
-
-            .level-header {
-                padding: 15px;
-            }
-
-            .level-number {
-                width: 40px;
-                height: 40px;
-                font-size: 1.3em;
-            }
-
-            .level-title h2 {
-                font-size: 1.2em;
-            }
-
-            .level-title p {
-                font-size: 0.85em;
-            }
-
-            .chart-container {
-                padding: 15px;
-            }
-
-            .metric-card {
-                padding: 15px;
-            }
-
-            .metric-label {
-                font-size: 0.75em;
-            }
-
-            .metric-value {
-                font-size: 1.6em;
-            }
-
-            .metric-percent {
-                font-size: 0.95em;
-            }
-
-            .footer {
-                padding: 15px;
-                font-size: 0.8em;
-            }
-
-            .footer p {
-                font-size: 0.85em;
-            }
-        }
     </style>
 </head>
 <body>
@@ -361,29 +180,28 @@
         <div class="header">
             <h1>Emergency Contact Data Quality Dashboard</h1>
             <p>Three-Level Data Analysis: Entry → Matching → Quality</p>
-            <p style="margin-top: 10px; font-size: 0.95em; opacity: 0.9;">Total Patient Population: 87,753</p>
-            <a href="detailed_charts.html" class="nav-link">📊 View Detailed Charts & Analysis</a>
+            <p style="margin-top: 10px; font-size: 0.95em; opacity: 0.9;">Total Patient Population: 87753</p>
         </div>
 
-        <!-- LEVEL 1: DATA ENTRY STATUS WITH SOURCE BREAKDOWN -->
+        <!-- LEVEL 1: DATA ENTRY STATUS -->
         <div class="level-section">
             <div class="level-header">
                 <div class="level-number">1</div>
                 <div class="level-title">
                     <h2>Data Entry Status</h2>
-                    <p>Has data been entered for the patient? Which sources?</p>
+                    <p>Has data been entered for the patient?</p>
                 </div>
             </div>
 
             <div class="metrics-grid">
                 <div class="metric-card green">
                     <div class="metric-label">Data Entered</div>
-                    <div class="metric-value">66,308</div>
+                    <div class="metric-value">66308</div>
                     <div class="metric-percent">75.6% of total</div>
                 </div>
                 <div class="metric-card red">
                     <div class="metric-label">No Data Entered</div>
-                    <div class="metric-value">21,445</div>
+                    <div class="metric-value">21445</div>
                     <div class="metric-percent">24.4% of total</div>
                 </div>
             </div>
@@ -396,6 +214,11 @@
                     <div id="level1-source-breakdown"></div>
                 </div>
             </div>
+
+            <div class="chart-container full-width">
+                <div id="level1-sankey"></div>
+            </div>
+
         </div>
 
         <!-- LEVEL 2: MATCH STATUS (Among Data Entered) -->
@@ -404,7 +227,7 @@
                 <div class="level-number">2</div>
                 <div class="level-title">
                     <h2>Match Status (Among Data Entered)</h2>
-                    <p>Of the 66,308 patients with data entered, how many found matches in crosswalk?</p>
+                    <p>Of the 66308 patients with data entered, how many found matches in crosswalk?</p>
                 </div>
             </div>
 
@@ -494,7 +317,7 @@
         };
 
         // ===== LEVEL 1 CHARTS =====
-        // Level 1: Pie Chart
+        // Level 1: Pie Chart - Entry Status
         var level1PieData = [{
             values: [66308, 21445],
             labels: ['Data Entered', 'No Data Entered'],
@@ -519,7 +342,7 @@
             paper_bgcolor: 'white',
             plot_bgcolor: 'white',
             annotations: [{
-                text: '87,753<br>Total',
+                text: '87753<br>Total',
                 showarrow: false,
                 font: { size: 16, color: '#2d3748' }
             }]
@@ -529,8 +352,24 @@
 
         // Level 1: Source Breakdown Pie Chart
         var level1SourceData = [{
-            values: [3638, 1743, 20173, 13783, 23153, 29024, 12603],
-            labels: ['DM Only', 'CG Only', 'EC Only', 'DM+CG', 'DM+EC', 'EC+CG', 'All Three'],
+            values: [
+                3638,
+                1743,
+                20173,
+                1180,
+                10550,
+                16421,
+                12603
+            ],
+            labels: [
+                'DM Only',
+                'CG Only',
+                'EC Only',
+                'DM+CG',
+                'DM+EC',
+                'EC+CG',
+                'All Three'
+            ],
             type: 'pie',
             hole: 0.4,
             marker: {
@@ -539,26 +378,137 @@
             textinfo: 'label+percent',
             textposition: 'outside',
             textfont: { size: 11, family: 'Segoe UI, sans-serif' },
-            hovertemplate: '<b>%{label}</b><br>Patients: %{value:,}<br>Percentage: %{percent}<extra></extra>'
+            hovertemplate: '<b>%{label}</b><br>Patients: %{value:,}<br>%{percent} of data entered<extra></extra>'
         }];
 
         var level1SourceLayout = {
             title: {
-                text: 'Data Source Combinations',
+                text: 'Data Source Combinations<br>(Among Data Entered)',
                 font: { size: 16, color: '#2d3748', family: 'Segoe UI, sans-serif' }
             },
             height: 400,
             showlegend: true,
+            legend: {
+                orientation: 'v',
+                x: 1.1,
+                y: 0.5
+            },
             paper_bgcolor: 'white',
             plot_bgcolor: 'white',
             annotations: [{
-                text: '66,308<br>Entered',
+                text: '66308<br>Data Entered',
                 showarrow: false,
-                font: { size: 16, color: '#2d3748' }
+                font: { size: 14, color: '#2d3748' }
             }]
         };
 
         Plotly.newPlot('level1-source-breakdown', level1SourceData, level1SourceLayout, {responsive: true});
+
+        // Level 1: Sankey Diagram - Data Flow
+        var sankeyData = {
+            type: 'sankey',
+            orientation: 'h',
+            arrangement: 'snap',
+            node: {
+                pad: 5,
+                line: { color: '#2d3748', width: 0.5 },
+                label: [
+                    'Total Patients',
+                    'Data Entered', 
+                    'No Data Entered',
+                    'DM Only',
+                    'CG Only',
+                    'EC Only',
+                    'DM+CG',
+                    'DM+EC',
+                    'EC+CG',
+                    'All Three'
+                ],
+                customdata: [
+                    87753,
+                    66308,
+                    21445,
+                    3638,
+                    1743,
+                    20173,
+                    1180,
+                    10550,
+                    16421,
+                    12603
+                ],
+                hovertemplate: '<b>%{label}</b><br>Patients: %{customdata:,}<extra></extra>',
+                x: [0.001, 0.5, 0.5, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999],
+                y: [0.5, 0.35, 0.65, 0.08, 0.20, 0.32, 0.44, 0.56, 0.68, 0.80],
+                color: [
+                    '#2b6cb0',
+                    '#48bb78',
+                    '#c05621',
+                    '#3182ce',
+                    '#dd6b20',
+                    '#805ad5',
+                    '#319795',
+                    '#d53f8c',
+                    '#48bb78',
+                    '#2b6cb0'
+                ]
+            },
+            link: {
+                source: [0, 0, 1, 1, 1, 1, 1, 1, 1],
+                target: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                value: [
+                    66308,
+                    21445,
+                    3638,
+                    1743,
+                    20173,
+                    1180,
+                    10550,
+                    16421,
+                    12603
+                ],
+                label: [
+                    '66308',
+                    '21445',
+                    '3,638',
+                    '1,743',
+                    '20,173',
+                    '1,180',
+                    '10,550',
+                    '16,421',
+                    '12,603'
+                ],
+                hovertemplate: '%{value:,}<extra></extra>',
+
+                color: [
+                    'rgba(72,187,120,0.5)',
+                    'rgba(192,86,33,0.5)',
+                    'rgba(49,130,206,0.5)',
+                    'rgba(221,107,32,0.5)',
+                    'rgba(128,90,213,0.5)',
+                    'rgba(49,151,149,0.5)',
+                    'rgba(213,63,140,0.5)',
+                    'rgba(72,187,120,0.5)',
+                    'rgba(43,108,176,0.5)'
+                ]
+            },
+            textfont: { size: 10 },
+            //valueformat: ',',
+            //valuesuffix: ' patients'
+        };
+
+        var sankeyLayout = {
+            title: {
+                text: 'Patient Data Flow: Total → Entry Status → Source Detail',
+                font: { size: 16, color: '#2d3748', family: 'Segoe UI, sans-serif' }
+            },
+            height: 500,
+            font: { size: 10 },
+            paper_bgcolor: 'white',
+            plot_bgcolor: 'white'
+        };
+
+        Plotly.newPlot('level1-sankey', [sankeyData], sankeyLayout, {responsive: true});
+
 
         // ===== LEVEL 2 CHARTS =====
         // Level 2: Pie Chart
@@ -586,7 +536,7 @@
             paper_bgcolor: 'white',
             plot_bgcolor: 'white',
             annotations: [{
-                text: '66,308<br>Entered',
+                text: '66308<br>Entered',
                 showarrow: false,
                 font: { size: 16, color: '#2d3748' }
             }]
@@ -655,7 +605,7 @@
 
         Plotly.newPlot('level3-pie', level3PieData, level3PieLayout, {responsive: true});
 
-        // Level 3: Stacked Bar - WITH PERCENTAGES
+        // Level 3: Stacked Bar
         var level3StackedData = [
             {
                 x: ['Match Quality'],
