@@ -173,6 +173,25 @@
             padding: 20px;
             font-size: 0.9em;
         }
+
+        .nav-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.95em;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -181,6 +200,7 @@
             <h1>Emergency Contact Data Quality Dashboard</h1>
             <p>Three-Level Data Analysis: Entry → Matching → Quality</p>
             <p style="margin-top: 10px; font-size: 0.95em; opacity: 0.9;">Total Patient Population: 87753</p>
+            <a href="detailed_charts.html" class="nav-link">View Detailed Charts →</a>
         </div>
 
         <!-- LEVEL 1: DATA ENTRY STATUS -->
@@ -234,13 +254,13 @@
             <div class="metrics-grid">
                 <div class="metric-card green">
                     <div class="metric-label">Matched in Crosswalk</div>
-                    <div class="metric-value">58,116</div>
-                    <div class="metric-percent">87.6% of entered</div>
+                    <div class="metric-value">36,798</div>
+                    <div class="metric-percent">55.5% of entered</div>
                 </div>
                 <div class="metric-card orange">
                     <div class="metric-label">Entered but NOT Matched</div>
-                    <div class="metric-value">35,715</div>
-                    <div class="metric-percent">53.9% of entered</div>
+                    <div class="metric-value">29,510</div>
+                    <div class="metric-percent">44.5% of entered</div>
                 </div>
             </div>
 
@@ -260,25 +280,25 @@
                 <div class="level-number">3</div>
                 <div class="level-title">
                     <h2>Match Quality Distribution (Among Matched Records)</h2>
-                    <p>Of the 58,116 matched patients, what type of matches were found?</p>
+                    <p>Of the 36,798 matched patients, what type of matches were found?</p>
                 </div>
             </div>
 
             <div class="metrics-grid">
                 <div class="metric-card green">
                     <div class="metric-label">Both (Name + Phone)</div>
-                    <div class="metric-value">49,853</div>
-                    <div class="metric-percent">85.8% of matched</div>
+                    <div class="metric-value">31,181</div>
+                    <div class="metric-percent">84.7% of matched</div>
                 </div>
                 <div class="metric-card blue">
                     <div class="metric-label">Name Only</div>
-                    <div class="metric-value">2,964</div>
-                    <div class="metric-percent">5.1% of matched</div>
+                    <div class="metric-value">1,734</div>
+                    <div class="metric-percent">4.7% of matched</div>
                 </div>
                 <div class="metric-card orange">
                     <div class="metric-label">Phone Only</div>
-                    <div class="metric-value">5,885</div>
-                    <div class="metric-percent">10.1% of matched</div>
+                    <div class="metric-value">3,883</div>
+                    <div class="metric-percent">10.6% of matched</div>
                 </div>
 
             </div>
@@ -492,8 +512,6 @@
                 ]
             },
             textfont: { size: 10 },
-            //valueformat: ',',
-            //valuesuffix: ' patients'
         };
 
         var sankeyLayout = {
@@ -513,7 +531,7 @@
         // ===== LEVEL 2 CHARTS =====
         // Level 2: Pie Chart
         var level2PieData = [{
-            values: [58116, 35715],
+            values: [36798, 29510],
             labels: ['Matched in Crosswalk', 'Entered but NOT Matched'],
             type: 'pie',
             hole: 0.4,
@@ -548,7 +566,7 @@
         var level2FunnelData = [{
             type: 'funnel',
             y: ['Total Patients', 'Data Entered', 'Matched in Crosswalk'],
-            x: [87753, 66308, 58116],
+            x: [87753, 66308, 36798],
             textposition: 'inside',
             texttemplate: '%{x:,}<br>%{percentPrevious}',
             textfont: { color: 'white', size: 13 },
@@ -572,9 +590,9 @@
         Plotly.newPlot('level2-funnel', level2FunnelData, level2FunnelLayout, {responsive: true});
 
         // ===== LEVEL 3 CHARTS =====
-        // Level 3: Pie Chart
+        // Level 3: Pie Chart — values are mutually exclusive, sum to patients_matched (100%)
         var level3PieData = [{
-            values: [49853, 2964, 5885],
+            values: [31181, 1734, 3883],
             labels: ['Both (Name + Phone)', 'Name Only', 'Phone Only'],
             type: 'pie',
             hole: 0.4,
@@ -597,7 +615,7 @@
             paper_bgcolor: 'white',
             plot_bgcolor: 'white',
             annotations: [{
-                text: '58,116<br>Matched',
+                text: '36,798<br>Matched',
                 showarrow: false,
                 font: { size: 16, color: '#2d3748' }
             }]
@@ -609,7 +627,7 @@
         var level3StackedData = [
             {
                 x: ['Match Quality'],
-                y: [49853],
+                y: [31181],
                 name: 'Both (Name + Phone)',
                 type: 'bar',
                 width: 0.4,
@@ -617,14 +635,14 @@
                     color: '#38a169',
                     line: { color: '#2d3748', width: 1 }
                 },
-                text: ['49,853'],
+                text: ['31,181'],
                 textposition: 'inside',
                 textfont: { color: 'white', size: 12 },
-                hovertemplate: '<b>Both</b><br>Patients: %{y:,}<br>85.8%<extra></extra>'
+                hovertemplate: '<b>Both</b><br>Patients: %{y:,}<br>84.7%<extra></extra>'
             },
             {
                 x: ['Match Quality'],
-                y: [2964],
+                y: [1734],
                 name: 'Name Only',
                 type: 'bar',
                 width: 0.4,
@@ -632,14 +650,14 @@
                     color: '#3182ce',
                     line: { color: '#2d3748', width: 1 }
                 },
-                text: ['2,964)'],
+                text: ['1,734'],
                 textposition: 'inside',
                 textfont: { color: 'white', size: 12 },
-                hovertemplate: '<b>Name Only</b><br>Patients: %{y:,}<br>5.1%<extra></extra>'
+                hovertemplate: '<b>Name Only</b><br>Patients: %{y:,}<br>4.7%<extra></extra>'
             },
             {
                 x: ['Match Quality'],
-                y: [5885],
+                y: [3883],
                 name: 'Phone Only',
                 type: 'bar',
                 width: 0.4,
@@ -647,10 +665,10 @@
                     color: '#dd6b20',
                     line: { color: '#2d3748', width: 1 }
                 },
-                text: ['5,885'],
+                text: ['3,883'],
                 textposition: 'inside',
                 textfont: { color: 'white', size: 12 },
-                hovertemplate: '<b>Phone Only</b><br>Patients: %{y:,}<br>10.1%<extra></extra>'
+                hovertemplate: '<b>Phone Only</b><br>Patients: %{y:,}<br>10.6%<extra></extra>'
             }
         ];
 
