@@ -265,13 +265,13 @@
             <div class="metrics-grid">
                 <div class="metric-card green">
                     <div class="metric-label">Matched in Crosswalk</div>
-                    <div class="metric-value">37,494</div>
-                    <div class="metric-percent">56.0% of entered</div>
+                    <div class="metric-value">37,903</div>
+                    <div class="metric-percent">56.6% of entered</div>
                 </div>
                 <div class="metric-card orange">
                     <div class="metric-label">Entered but NOT Matched</div>
-                    <div class="metric-value">29,425</div>
-                    <div class="metric-percent">44.0% of entered</div>
+                    <div class="metric-value">29,016</div>
+                    <div class="metric-percent">43.4% of entered</div>
                 </div>
             </div>
 
@@ -291,25 +291,25 @@
                 <div class="level-number">3</div>
                 <div class="level-title">
                     <h2>Match Quality Distribution (Among Matched Records)</h2>
-                    <p>Of the 37,494 matched patients, what type of matches were found?</p>
+                    <p>Of the 37,903 matched patients, what type of matches were found?</p>
                 </div>
             </div>
 
             <div class="metrics-grid">
                 <div class="metric-card green">
                     <div class="metric-label">Both (Name + Phone)</div>
-                    <div class="metric-value">31,689</div>
-                    <div class="metric-percent">84.5% of matched</div>
+                    <div class="metric-value">33,910</div>
+                    <div class="metric-percent">89.5% of matched</div>
                 </div>
                 <div class="metric-card blue">
                     <div class="metric-label">Name Only</div>
-                    <div class="metric-value">1,769</div>
-                    <div class="metric-percent">4.7% of matched</div>
+                    <div class="metric-value">2,178</div>
+                    <div class="metric-percent">5.7% of matched</div>
                 </div>
                 <div class="metric-card orange">
                     <div class="metric-label">Phone Only</div>
-                    <div class="metric-value">4,036</div>
-                    <div class="metric-percent">10.8% of matched</div>
+                    <div class="metric-value">1,815</div>
+                    <div class="metric-percent">4.8% of matched</div>
                 </div>
 
             </div>
@@ -542,7 +542,7 @@
         // ===== LEVEL 2 CHARTS =====
         // Level 2: Pie Chart
         var level2PieData = [{
-            values: [37494, 29425],
+            values: [37903, 29016],
             labels: ['Matched in Crosswalk', 'Entered but NOT Matched'],
             type: 'pie',
             hole: 0.4,
@@ -577,7 +577,7 @@
         var level2FunnelData = [{
             type: 'funnel',
             y: ['Total Patients', 'Data Entered', 'Matched in Crosswalk'],
-            x: [73827, 66919, 37494],
+            x: [73827, 66919, 37903],
             textposition: 'inside',
             texttemplate: '%{x:,}<br>%{percentPrevious}',
             textfont: { color: 'white', size: 13 },
@@ -603,7 +603,7 @@
         // ===== LEVEL 3 CHARTS =====
         // Level 3: Pie Chart — values are mutually exclusive, sum to patients_matched (100%)
         var level3PieData = [{
-            values: [31689, 1769, 4036],
+            values: [33910, 2178, 1815],
             labels: ['Both (Name + Phone)', 'Name Only', 'Phone Only'],
             type: 'pie',
             hole: 0.4,
@@ -626,7 +626,7 @@
             paper_bgcolor: 'white',
             plot_bgcolor: 'white',
             annotations: [{
-                text: '37,494<br>Matched',
+                text: '37,903<br>Matched',
                 showarrow: false,
                 font: { size: 16, color: '#2d3748' }
             }]
@@ -638,7 +638,7 @@
         var level3StackedData = [
             {
                 x: ['Match Quality'],
-                y: [31689],
+                y: [33910],
                 name: 'Both (Name + Phone)',
                 type: 'bar',
                 width: 0.4,
@@ -646,14 +646,14 @@
                     color: '#38a169',
                     line: { color: '#2d3748', width: 1 }
                 },
-                text: ['31,689'],
+                text: ['33,910'],
                 textposition: 'inside',
                 textfont: { color: 'white', size: 12 },
-                hovertemplate: '<b>Both</b><br>Patients: %{y:,}<br>84.5%<extra></extra>'
+                hovertemplate: '<b>Both</b><br>Patients: %{y:,}<br>89.5%<extra></extra>'
             },
             {
                 x: ['Match Quality'],
-                y: [1769],
+                y: [2178],
                 name: 'Name Only',
                 type: 'bar',
                 width: 0.4,
@@ -661,14 +661,14 @@
                     color: '#3182ce',
                     line: { color: '#2d3748', width: 1 }
                 },
-                text: ['1,769'],
+                text: ['2,178'],
                 textposition: 'inside',
                 textfont: { color: 'white', size: 12 },
-                hovertemplate: '<b>Name Only</b><br>Patients: %{y:,}<br>4.7%<extra></extra>'
+                hovertemplate: '<b>Name Only</b><br>Patients: %{y:,}<br>5.7%<extra></extra>'
             },
             {
                 x: ['Match Quality'],
-                y: [4036],
+                y: [1815],
                 name: 'Phone Only',
                 type: 'bar',
                 width: 0.4,
@@ -676,10 +676,10 @@
                     color: '#dd6b20',
                     line: { color: '#2d3748', width: 1 }
                 },
-                text: ['4,036'],
+                text: ['1,815'],
                 textposition: 'inside',
                 textfont: { color: 'white', size: 12 },
-                hovertemplate: '<b>Phone Only</b><br>Patients: %{y:,}<br>10.8%<extra></extra>'
+                hovertemplate: '<b>Phone Only</b><br>Patients: %{y:,}<br>4.8%<extra></extra>'
             }
         ];
 
